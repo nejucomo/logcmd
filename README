@@ -1,0 +1,21 @@
+logcmd executes a child process with various logging features:
+
+* A log is sent to three destinations:
+  * stdout, assuming a terminal is connected.
+  * A well named path, including a safe(ish) encoding of the arguments in the name, with a ".streamlog" suffix.
+  * Same as the above, except with a ".log" suffix.
+* Information about the process is logged in addition to its stdout/stderr to a "info" stream:
+  * the argument array (logged in python's unambiguous repr() format).
+  * exit status or exit signal.
+  * wall clock time.
+* Disambiguation of the "info", stdout, and stderr streams:
+  * the terminal by vt100 colors.
+  * in the ".streamlog" file by a prefix per line: "I:", "O:", or "E:" respectively.
+  * in the ".log" file, the info stream is *absent* and the stdout/err are *not* disambiguated.
+
+
+The idea is that running: logcmd some_important_command --verbose --option foo stuff blah
+
+1. Will send colorized output to the terminal, allowing humans to quickly disambiguate output and see exit status.
+2. Will create a disambiguated log file which is easy to parse. Example: To recover stderr, run this: grep '^E:' $LOGNAME.logstream | sed 's/^E://'
+3. Will create a simple ambiguous merged log file which should contain bytes very similar to what the terminal would receive if logcmd were not used.  (Buffering may change the order of this compared to a terminal.)
