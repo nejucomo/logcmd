@@ -4,7 +4,7 @@ logcmd executes a child process with various logging features:
   * stdout, assuming a terminal is connected.
   * A well named path, including a safe(ish) encoding of the arguments in the name, with a ".streamlog" suffix.
   * Same as the above, except with a ".log" suffix.
-* Information about the process is logged in addition to its stdout/stderr to a "info" stream:
+* Information about the process is logged in addition to its stdout/stderr to an "info" stream:
   * the argument array (logged in python's unambiguous repr() format).
   * exit status or exit signal.
   * wall clock time.
