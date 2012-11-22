@@ -8,7 +8,7 @@ setup(name='logcmd',
       author='Nathan Wilcox',
       author_email='nejucomo@gmail.com',
       license='GPLv3',
-      #url='FIXME',
+      url='https://github.com/nejucomo/logcmd',
       py_modules=['logcmd'],
       scripts=['logcmd'],
      )
