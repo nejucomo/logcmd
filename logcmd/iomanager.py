@@ -9,11 +9,15 @@ from logcmd.procmanager import ProcManager
 class IOManager (object):
     def __init__(self,
                  outstream,
+                 tmpl=DefaultTemplate,
+                 params=None,
                  _select=select.select,
                  _popen=subprocess.Popen,
                  _gettime=time.gmtime):
 
         self._outstream = outstream
+        self._tmpl = tmpl
+        self._params = params
         self._select = _select
         self._popen = _popen
         self._gettime = _gettime
@@ -21,12 +25,12 @@ class IOManager (object):
         self._pms = set()
         self._exitstatus = 0
 
-    def launch(self, args, tmpl=DefaultTemplate, params=None):
+    def launch(self, args):
         pman = ProcManager(
             self._outstream,
             args,
-            tmpl,
-            params,
+            self._tmpl,
+            self._params,
             _popen=self._popen,
             _gettime=self._gettime,
             )

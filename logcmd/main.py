@@ -19,15 +19,17 @@ def main(args=sys.argv[1:],
          _popen=subprocess.Popen,
          _gettime=time.gmtime,
          ):
+
     opts = parse_args(args)
     ioman = IOManager(
         _stdout,
+        tmpl=opts.TMPL,
         _select=_select,
         _popen=_popen,
         _gettime=_gettime,
         )
     subargs = [opts.COMMAND] + opts.ARG
-    ioman.launch(subargs, tmpl=opts.TMPL)
+    ioman.launch(subargs)
     _exit(ioman.mainloop())
 
 
