@@ -30,7 +30,7 @@ class IOManager (object):
             self._readables[f] = pman
 
     def mainloop(self):
-        while len(self._pms) > 0:
+        while len(self._pms) > 0 or len(self._readables) > 0:
             self._filter_closed_processes()
             self._handle_io()
         return self._exitstatus
@@ -42,8 +42,6 @@ class IOManager (object):
                 continue
             else:
                 self._pms.remove(pm)
-                for f in pm.readables:
-                    del self._readables[f]
                 if rc != 0:
                     self._exitstatus = 1
 
@@ -53,4 +51,5 @@ class IOManager (object):
             assert (wds, xds) == ([], []), repr((rds, wds, xds))
 
             for rd in rds:
-                self._readables[rd].handle_read(rd)
+                if not self._readables[rd].handle_read(rd):
+                    del self._readables[rd]

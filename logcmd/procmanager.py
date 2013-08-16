@@ -37,7 +37,11 @@ class ProcManager (object):
     def handle_read(self, f):
         writer = self._writers[f]
         chunk = f.read(self._BUFSIZE)
-        writer.write(chunk)
+        if len(chunk) > 0:
+            writer.write(chunk)
+            return True
+        else:
+            return False
 
     def check_closed(self):
         rc = self._proc.poll()
