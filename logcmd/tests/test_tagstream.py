@@ -1,8 +1,8 @@
 import unittest
 import time
-from StringIO import StringIO
 
 from logcmd.tagstream import TagStream
+from logcmd.tests.savestringio import SaveStringIO
 
 
 class TagStreamTests (unittest.TestCase):
@@ -25,15 +25,3 @@ class TagStreamTests (unittest.TestCase):
 
         expected += '1970-01-01T00:00:00+0000|T|quz\n'
         self.assertEqual(expected, f.getvalue())
-
-
-class SaveStringIO (StringIO):
-    def close(self):
-        self._value = self.getvalue()
-        StringIO.close(self)
-
-    def getvalue(self):
-        if hasattr(self, '_value'):
-            return self._value
-        else:
-            return StringIO.getvalue(self)
