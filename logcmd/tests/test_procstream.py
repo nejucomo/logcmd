@@ -11,24 +11,24 @@ class TagStreamTests (unittest.TestCase):
         faketime = lambda: time.gmtime(0)
         ps = ProcStream(f, 7, faketime)
 
-        ps.info.write('Whee!\n')
+        ps.info('Whee%s', '!')
         ps.out.write('foo')
         ps.err.write('bar\n')
         ps.out.write('quz\n')
         ps.err.write('oops')
-        ps.info.write('done')
+        ps.info('done')
 
         expected = """\
 1970-01-01T00:00:00+0000|7|I|Whee!
 1970-01-01T00:00:00+0000|7|E|bar
 1970-01-01T00:00:00+0000|7|O|fooquz
+1970-01-01T00:00:00+0000|7|I|done
 """
         self.assertEqual(expected, f.getvalue())
 
         ps.close()
 
         expected += """\
-1970-01-01T00:00:00+0000|7|I|done
 1970-01-01T00:00:00+0000|7|E|oops
 """
         self.assertEqual(expected, f.getvalue())
