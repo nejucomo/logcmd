@@ -48,8 +48,9 @@ class IOManager (object):
                     self._exitstatus = 1
 
     def _handle_io(self):
-        (rds, wds, xds) = self._select(self._readables.keys(), [], [])
-        assert (wds, xds) == ([], []), repr((rds, wds, xds))
+        if len(self._readables) > 0:
+            (rds, wds, xds) = self._select(self._readables.keys(), [], [])
+            assert (wds, xds) == ([], []), repr((rds, wds, xds))
 
-        for rd in rds:
-            self._readables[rd].handle_read(rd)
+            for rd in rds:
+                self._readables[rd].handle_read(rd)
