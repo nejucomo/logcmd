@@ -27,7 +27,13 @@ class ProcManagerTests (unittest.TestCase):
             )
         fakeselect = lambda rds, wds, eds: (rds, wds, eds)
 
-        ioman = IOManager(sio, fakeselect, popen, faketime)
+        ioman = IOManager(
+            sio,
+            _select=fakeselect,
+            _popen=popen,
+            _gettime=faketime,
+            )
+
         ioman.launch(['foo', 'foofy'])
         ioman.launch(['bar', 'barfy'])
         status = ioman.mainloop()

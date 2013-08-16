@@ -5,9 +5,10 @@ ISO_8601 = '%Y-%m-%dT%H:%M:%S%z'
 
 class TagStream (object):
 
-    def __init__(self, outstream, tmpl, _gettime=time.gmtime):
+    def __init__(self, outstream, tmpl, params=None, _gettime=time.gmtime):
         self._f = outstream
         self._tmpl = tmpl
+        self._params = params or {}
         self._gettime = _gettime
         self._buf = ''
 
@@ -27,8 +28,8 @@ class TagStream (object):
         self.flush()
 
     def _write(self, line):
-        self._f.write(
-            self._tmpl % {
-                'TIME': time.strftime(ISO_8601, self._gettime()),
-                'LINE': line,
-                })
+        params = dict(self._params)
+        params['TIME'] = time.strftime(ISO_8601, self._gettime())
+        params['LINE'] = line
+
+        self._f.write(self._tmpl.format(**params))

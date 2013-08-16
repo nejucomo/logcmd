@@ -5,12 +5,25 @@ from logcmd.tagstream import TagStream
 
 class ProcStream (object):
 
-    def __init__(self, outstream, pid, _gettime=time.gmtime):
-        metatmpl = '%%(TIME)s %d %s %%(LINE)s\n'
+    def __init__(self,
+                 outstream,
+                 pid,
+                 tmpl='{TIME} {PID} {TAG} {LINE}\n',
+                 params=None,
+                 _gettime=time.gmtime,
+                 ):
 
-        self._info = TagStream(outstream, metatmpl % (pid, '*'), _gettime)
-        self.out = TagStream(outstream, metatmpl % (pid, '-'), _gettime)
-        self.err = TagStream(outstream, metatmpl % (pid, '!'), _gettime)
+        def make_stream(tag):
+            return TagStream(
+                outstream,
+                tmpl,
+                {'PID': pid,
+                 'TAG': tag},
+                _gettime=_gettime)
+
+        self._info = make_stream('*')
+        self.out = make_stream('-')
+        self.err = make_stream('!')
 
     def info(self, tmpl, *args):
         self._info.write((tmpl % args) + '\n')

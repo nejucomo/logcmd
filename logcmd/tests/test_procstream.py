@@ -9,7 +9,7 @@ class ProcStreamTests (unittest.TestCase):
     def test_write_and_close(self):
         f = StringIO()
         faketime = lambda: time.gmtime(0)
-        ps = ProcStream(f, 7, faketime)
+        ps = ProcStream(f, 7, _gettime=faketime)
 
         ps.info('Whee%s', '!')
         ps.out.write('foo')

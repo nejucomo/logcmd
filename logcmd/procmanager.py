@@ -16,6 +16,8 @@ class ProcManager (object):
     def __init__(self,
                  outstream,
                  args,
+                 tmpl='{TIME} {PID} {TAG} {LINE}\n',
+                 params=None,
                  _popen=subprocess.Popen,
                  _gettime=time.gmtime,
                  ):
@@ -29,7 +31,12 @@ class ProcManager (object):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
 
-        self._ps = ProcStream(outstream, self._proc.pid, _gettime=_gettime)
+        self._ps = ProcStream(
+            outstream,
+            self._proc.pid,
+            tmpl,
+            params,
+            _gettime=_gettime)
 
         self._writers = {
             self._proc.stdout: self._ps.out,
