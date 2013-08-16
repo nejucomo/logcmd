@@ -22,12 +22,14 @@ class IOManager (object):
         self._exitstatus = 0
 
     def launch(self, args, tmpl=DefaultTemplate, params=None):
-        pman = ProcManager(self._outstream,
-                           args,
-                           tmpl,
-                           params,
-                           _popen=self._popen,
-                           _gettime=self._gettime)
+        pman = ProcManager(
+            self._outstream,
+            args,
+            tmpl,
+            params,
+            _popen=self._popen,
+            _gettime=self._gettime,
+            )
 
         self._pms.add(pman)
         for f in pman.readables:
