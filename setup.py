@@ -1,10 +1,17 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup, find_packages
+
+cmdclass={}
+if not os.path.isfile('PKG-INFO'):
+    # We are not in an sdist, so incorporate qip:
+    import qip
+    cmdclass.update(qip.get_commands())
+
 
 setup(name='logcmd',
       description='Run a child command; disambiguate stdout/err; show args, exit status/signal, wall clock time.',
-      version='0.1',
+      version='0.2.dev0',
       author='Nathan Wilcox',
       author_email='nejucomo@gmail.com',
       license='GPLv3',
