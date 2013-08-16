@@ -45,5 +45,6 @@ class ProcManagerTests (unittest.TestCase):
         expected += """\
 1970-01-01T00:00:00+0000 0 - blah
 1970-01-01T00:00:00+0000 0 * Process exited with status: 0
+1970-01-01T00:00:00+0000 0 * Wall clock time: 0.000
 """
         self.assertEqual(expected, sio.getvalue())

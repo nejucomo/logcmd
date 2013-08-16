@@ -19,6 +19,10 @@ class ProcManager (object):
                  _popen=subprocess.Popen,
                  _gettime=time.gmtime,
                  ):
+
+        self._gettime = _gettime
+        self._starttime = time.mktime(_gettime())
+
         self._proc = _popen(
             args,
             shell=False,
@@ -70,6 +74,9 @@ class ProcManager (object):
         else:
             self._ps.info('Error; unknown exit status: %r',
                           rc)
+
+        endtime = time.mktime(self._gettime())
+        self._ps.info('Wall clock time: %.3f', endtime - self._starttime)
 
         self._ps.close()
         return rc

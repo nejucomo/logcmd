@@ -42,7 +42,9 @@ class ProcManagerTests (unittest.TestCase):
 1970-01-01T00:00:00+0000 1 - C
 1970-01-01T00:00:00+0000 1 ! D
 1970-01-01T00:00:00+0000 0 * Process exited with status: 0
+1970-01-01T00:00:00+0000 0 * Wall clock time: 0.000
 1970-01-01T00:00:00+0000 1 * Process exited due to signal: 7
+1970-01-01T00:00:00+0000 1 * Wall clock time: 0.000
 """
         # Because of mapping non-determinism, we sort the lines for comparison:
         sorted_lines = lambda s: sorted(s.split('\n'))
