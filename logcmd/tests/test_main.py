@@ -48,3 +48,16 @@ class MainTests (unittest.TestCase):
 1970-01-01T00:00:00+0000 0 * Wall clock time: 0.000
 """,
             )
+
+    def test_subcommand_parameter_collision(self):
+        self._run_main_and_verify(
+            ['foo', '-t', 'bar'],
+            status=0,
+            expectedout="""\
+1970-01-01T00:00:00+0000 0 * Launched with args: ['foo', '-t', 'bar']
+1970-01-01T00:00:00+0000 0 - A
+1970-01-01T00:00:00+0000 0 ! B
+1970-01-01T00:00:00+0000 0 * Process exited with status: 0
+1970-01-01T00:00:00+0000 0 * Wall clock time: 0.000
+""",
+            )
