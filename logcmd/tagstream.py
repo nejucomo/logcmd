@@ -25,7 +25,6 @@ class TagStream (object):
 
     def close(self):
         self.flush()
-        self._f.close()
 
     def _write(self, line):
         self._f.write(

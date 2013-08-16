@@ -1,13 +1,13 @@
 import unittest
 import time
+from cStringIO import StringIO
 
 from logcmd.tagstream import TagStream
-from logcmd.tests.savestringio import SaveStringIO
 
 
 class TagStreamTests (unittest.TestCase):
     def test_write_and_close(self):
-        f = SaveStringIO()
+        f = StringIO()
         faketime = lambda: time.gmtime(0)
         ts = TagStream(f, '%(TIME)s|T|%(LINE)s\n', faketime)
 

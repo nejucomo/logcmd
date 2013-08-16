@@ -1,13 +1,13 @@
 import unittest
 import time
+from cStringIO import StringIO
 
 from logcmd.procstream import ProcStream
-from logcmd.tests.savestringio import SaveStringIO
 
 
 class ProcStreamTests (unittest.TestCase):
     def test_write_and_close(self):
-        f = SaveStringIO()
+        f = StringIO()
         faketime = lambda: time.gmtime(0)
         ps = ProcStream(f, 7, faketime)
 

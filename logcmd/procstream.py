@@ -21,4 +21,3 @@ class ProcStream (object):
 
     def close(self):
         self.flush()
-        self._info.close()
