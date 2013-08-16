@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 from setuptools import setup, find_packages
 
 cmdclass={}
@@ -16,6 +17,11 @@ setup(name='logcmd',
       author_email='nejucomo@gmail.com',
       license='GPLv3',
       url='https://github.com/nejucomo/logcmd',
-      py_modules=['logcmd'],
-      scripts=['logcmd'],
+      packages=find_packages(),
+      test_suite='logcmd.tests',
+      entry_points = {
+        'console_scripts': [
+            'logcmd = logcmd.main:main',
+            ],
+        },
      )
