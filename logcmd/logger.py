@@ -10,12 +10,12 @@ ISO_8601 = '%Y-%m-%dT%H:%M:%S%z'
 
 
 class Logger (object):
-    def __init__(self, args, timestart):
+    def __init__(self, args, timestart, logdir=LOG_DIR, stdout=sys.stdout):
         date = time.strftime(ISO_8601, time.gmtime(timestart))
-        cmdenc = '+'.join( urllib.quote(arg, '') for arg in args )
-        stem = os.path.join(LOG_DIR, '%s.%s.' % (date, cmdenc))
+        cmdenc = '+'.join(urllib.quote(arg, '') for arg in args)
+        stem = os.path.join(logdir, '%s.%s.' % (date, cmdenc))
 
-        self._terminal = sys.stdout
+        self._terminal = stdout
         self._combined = file(stem + 'log', 'w')
         self._split = file(stem + 'streamlog', 'w')
         self._bufs = {
@@ -41,7 +41,7 @@ class Logger (object):
                 },
             }
 
-        self('I', 'Launching %r on %s.\n', args, date)
+        self('I', 'Launching %r on %s\n', args, date)
 
     def __call__(self, stream, tmpl, *args):
         buf = self._bufs[stream]

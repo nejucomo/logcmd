@@ -1,5 +1,6 @@
 MANIFEST
 dist/
 logcmd.egg-info/
+_unittest_data/
 
 *.pyc

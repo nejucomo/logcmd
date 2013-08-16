@@ -24,4 +24,5 @@ setup(name='logcmd',
             'logcmd = logcmd.main:main',
             ],
         },
-     )
+      cmdclass=cmdclass,
+      )
