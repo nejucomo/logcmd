@@ -20,7 +20,12 @@ def main(args=sys.argv[1:],
          _gettime=time.gmtime,
          ):
     opts = parse_args(args)
-    ioman = IOManager(_stdout)
+    ioman = IOManager(
+        _stdout,
+        _select=_select,
+        _popen=_popen,
+        _gettime=_gettime,
+        )
     subargs = [opts.COMMAND] + opts.ARG
     ioman.launch(subargs, tmpl=opts.TMPL)
     _exit(ioman.mainloop())
