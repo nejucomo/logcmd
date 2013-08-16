@@ -19,16 +19,16 @@ class ProcStreamTests (unittest.TestCase):
         ps.info('done')
 
         expected = """\
-1970-01-01T00:00:00+0000|7|I|Whee!
-1970-01-01T00:00:00+0000|7|E|bar
-1970-01-01T00:00:00+0000|7|O|fooquz
-1970-01-01T00:00:00+0000|7|I|done
+1970-01-01T00:00:00+0000 7 * Whee!
+1970-01-01T00:00:00+0000 7 ! bar
+1970-01-01T00:00:00+0000 7 - fooquz
+1970-01-01T00:00:00+0000 7 * done
 """
         self.assertEqual(expected, f.getvalue())
 
         ps.close()
 
         expected += """\
-1970-01-01T00:00:00+0000|7|E|oops
+1970-01-01T00:00:00+0000 7 ! oops
 """
         self.assertEqual(expected, f.getvalue())

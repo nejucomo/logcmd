@@ -35,14 +35,14 @@ class ProcManagerTests (unittest.TestCase):
         self.assertEqual(1, status)
 
         expected = """\
-1970-01-01T00:00:00+0000|0|I|Launched with args: ['foo', 'foofy']
-1970-01-01T00:00:00+0000|1|I|Launched with args: ['bar', 'barfy']
-1970-01-01T00:00:00+0000|0|O|A
-1970-01-01T00:00:00+0000|0|E|B
-1970-01-01T00:00:00+0000|1|O|C
-1970-01-01T00:00:00+0000|1|E|D
-1970-01-01T00:00:00+0000|0|I|Process exited with status: 0
-1970-01-01T00:00:00+0000|1|I|Process exited due to signal: 7
+1970-01-01T00:00:00+0000 0 * Launched with args: ['foo', 'foofy']
+1970-01-01T00:00:00+0000 1 * Launched with args: ['bar', 'barfy']
+1970-01-01T00:00:00+0000 0 - A
+1970-01-01T00:00:00+0000 0 ! B
+1970-01-01T00:00:00+0000 1 - C
+1970-01-01T00:00:00+0000 1 ! D
+1970-01-01T00:00:00+0000 0 * Process exited with status: 0
+1970-01-01T00:00:00+0000 1 * Process exited due to signal: 7
 """
         # Because of mapping non-determinism, we sort the lines for comparison:
         sorted_lines = lambda s: sorted(s.split('\n'))

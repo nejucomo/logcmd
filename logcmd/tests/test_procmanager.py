@@ -24,7 +24,7 @@ class ProcManagerTests (unittest.TestCase):
         pman = ProcManager(sio, args, _popen=popen, _gettime=faketime)
 
         expected = """\
-1970-01-01T00:00:00+0000|0|I|Launched with args: ['foo', 'bar']
+1970-01-01T00:00:00+0000 0 * Launched with args: ['foo', 'bar']
 """
         self.assertEqual(expected, sio.getvalue())
         self.assertIsNone(pman.check_closed())
@@ -34,16 +34,16 @@ class ProcManagerTests (unittest.TestCase):
             pman.handle_read(f)
 
         expected += """\
-1970-01-01T00:00:00+0000|0|O|I am:
-1970-01-01T00:00:00+0000|0|O|the stdout stream.
-1970-01-01T00:00:00+0000|0|E|Hello!
-1970-01-01T00:00:00+0000|0|E|stderr reporting for duty.
+1970-01-01T00:00:00+0000 0 - I am:
+1970-01-01T00:00:00+0000 0 - the stdout stream.
+1970-01-01T00:00:00+0000 0 ! Hello!
+1970-01-01T00:00:00+0000 0 ! stderr reporting for duty.
 """
         self.assertEqual(expected, sio.getvalue())
         self.assertEqual(0, pman.check_closed())
 
         expected += """\
-1970-01-01T00:00:00+0000|0|O|blah
-1970-01-01T00:00:00+0000|0|I|Process exited with status: 0
+1970-01-01T00:00:00+0000 0 - blah
+1970-01-01T00:00:00+0000 0 * Process exited with status: 0
 """
         self.assertEqual(expected, sio.getvalue())
