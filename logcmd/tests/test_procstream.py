@@ -5,7 +5,7 @@ from logcmd.procstream import ProcStream
 from logcmd.tests.savestringio import SaveStringIO
 
 
-class TagStreamTests (unittest.TestCase):
+class ProcStreamTests (unittest.TestCase):
     def test_write_and_close(self):
         f = SaveStringIO()
         faketime = lambda: time.gmtime(0)
