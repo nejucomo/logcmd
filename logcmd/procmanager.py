@@ -2,6 +2,7 @@ import os
 import time
 import subprocess
 
+from logcmd.defaults import DefaultTemplate
 from logcmd.procstream import ProcStream
 
 
@@ -16,7 +17,7 @@ class ProcManager (object):
     def __init__(self,
                  outstream,
                  args,
-                 tmpl='{TIME} {PID} {TAG} {LINE}\n',
+                 tmpl=DefaultTemplate,
                  params=None,
                  _popen=subprocess.Popen,
                  _gettime=time.gmtime,

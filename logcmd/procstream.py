@@ -1,5 +1,6 @@
 import time
 
+from logcmd.defaults import DefaultTemplate
 from logcmd.tagstream import TagStream
 
 
@@ -8,7 +9,7 @@ class ProcStream (object):
     def __init__(self,
                  outstream,
                  pid,
-                 tmpl='{TIME} {PID} {TAG} {LINE}\n',
+                 tmpl=DefaultTemplate,
                  params=None,
                  _gettime=time.gmtime,
                  ):

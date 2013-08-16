@@ -1,13 +1,15 @@
 import time
 import subprocess
 import select
+
+from logcmd.defaults import DefaultTemplate
 from logcmd.procmanager import ProcManager
 
 
 class IOManager (object):
     def __init__(self,
                  outstream,
-                 tmpl='{TIME} {PID} {TAG} {LINE}\n',
+                 tmpl=DefaultTemplate,
                  params=None,
                  _select=select.select,
                  _popen=subprocess.Popen,
