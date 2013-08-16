@@ -45,7 +45,9 @@ class ProcManager (object):
         if rc is None:
             return None
 
-        elif os.WIFSTOPPED(rc):
+        self._ps.flush()
+
+        if os.WIFSTOPPED(rc):
             self._ps.info('Process stopped with signal: %r',
                           os.WSTOPSIG(rc))
 
