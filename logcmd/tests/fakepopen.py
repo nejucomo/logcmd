@@ -4,27 +4,40 @@ from cStringIO import StringIO
 
 class FakePopenFactory (object):
 
-    def __init__(self, testcase, expectedargs, outdata, errdata):
+    def __init__(self, testcase, *infos):
         self._tc = testcase
-        self._expectedargs = expectedargs
-        self._outdata = outdata
-        self._errdata = errdata
+        self._infos = infos
         self._nextpid = 0
 
     def __call__(self, args, shell, stdout, stderr):
-        self._tc.assertEqual(self._expectedargs, args)
+
+        pid = self._nextpid
+        info = self._infos[pid]
+        self._nextpid += 1
+
+        self._tc.assertEqual(info['args'], args)
         self._tc.assertFalse(shell)
         self._tc.assertEqual(subprocess.PIPE, stdout)
         self._tc.assertEqual(subprocess.PIPE, stderr)
 
-        pid = self._nextpid
-        self._nextpid += 1
-
-        return FakePopen(pid, StringIO(self._outdata), StringIO(self._errdata))
+        return FakePopen(
+            pid,
+            info['status'],
+            StringIO(info['out']),
+            StringIO(info['err']))
 
 
 class FakePopen (object):
-    def __init__(self, pid, stdout, stderr):
+    def __init__(self, pid, status, stdout, stderr):
         self.pid = pid
         self.stdout = stdout
         self.stderr = stderr
+        self._status = status
+
+    def poll(self):
+        if self.stdout.tell() < len(self.stdout.getvalue()):
+            return None
+        elif self.stderr.tell() < len(self.stderr.getvalue()):
+            return None
+        else:
+            return self._status

@@ -13,9 +13,12 @@ class ProcManagerTests (unittest.TestCase):
         faketime = lambda: time.gmtime(0)
         popen = FakePopenFactory(
             self,
-            args,
-            'I am:\nthe stdout stream.\n',
-            'Hello!\nstderr reporting for duty.\n',
+            dict(
+                args=args,
+                status=0,
+                out='I am:\nthe stdout stream.\n',
+                err='Hello!\nstderr reporting for duty.\n',
+                ),
             )
 
         pman = ProcManager(sio, args, _popen=popen, _gettime=faketime)
