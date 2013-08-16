@@ -6,11 +6,11 @@ from logcmd.tagstream import TagStream
 class ProcStream (object):
 
     def __init__(self, outstream, pid, _gettime=time.gmtime):
-        metatmpl = '%%(TIME)s|%d|%s|%%(LINE)s\n'
+        metatmpl = '%%(TIME)s %d %s %%(LINE)s\n'
 
-        self._info = TagStream(outstream, metatmpl % (pid, 'I'), _gettime)
-        self.out = TagStream(outstream, metatmpl % (pid, 'O'), _gettime)
-        self.err = TagStream(outstream, metatmpl % (pid, 'E'), _gettime)
+        self._info = TagStream(outstream, metatmpl % (pid, '*'), _gettime)
+        self.out = TagStream(outstream, metatmpl % (pid, '-'), _gettime)
+        self.err = TagStream(outstream, metatmpl % (pid, '!'), _gettime)
 
     def info(self, tmpl, *args):
         self._info.write((tmpl % args) + '\n')
