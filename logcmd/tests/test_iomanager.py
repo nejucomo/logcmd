@@ -4,6 +4,7 @@ from cStringIO import StringIO
 
 from logcmd.iomanager import IOManager
 from logcmd.tests.fakepopen import FakePopenFactory
+from logcmd.tests.orderedsio import fake_select
 
 
 class ProcManagerTests (unittest.TestCase):
@@ -25,11 +26,10 @@ class ProcManagerTests (unittest.TestCase):
                 err='D\n',
                 ),
             )
-        fakeselect = lambda rds, wds, eds: (rds, wds, eds)
 
         ioman = IOManager(
             sio,
-            _select=fakeselect,
+            _select=fake_select,
             _popen=popen,
             _gettime=faketime,
             )
@@ -52,6 +52,4 @@ class ProcManagerTests (unittest.TestCase):
 1970-01-01T00:00:00+0000 1 * Process exited due to signal: 7
 1970-01-01T00:00:00+0000 1 * Wall clock time: 0.000
 """
-        # Because of mapping non-determinism, we sort the lines for comparison:
-        sorted_lines = lambda s: sorted(s.split('\n'))
-        self.assertEqual(sorted_lines(expected), sorted_lines(sio.getvalue()))
+        self.assertEqual(expected, sio.getvalue())

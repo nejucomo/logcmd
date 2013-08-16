@@ -1,5 +1,6 @@
 import subprocess
-from cStringIO import StringIO
+
+from logcmd.tests.orderedsio import OrderedStringIO
 
 
 class FakePopenFactory (object):
@@ -23,8 +24,8 @@ class FakePopenFactory (object):
         return FakePopen(
             pid,
             info['status'],
-            StringIO(info['out']),
-            StringIO(info['err']))
+            OrderedStringIO(info['out']),
+            OrderedStringIO(info['err']))
 
 
 class FakePopen (object):

@@ -48,7 +48,7 @@ def parse_args(args):
 
     p.add_argument('ARG',
                    type=str,
-                   nargs='*',
+                   nargs=argparse.REMAINDER,
                    help='Subcommand arguments.')
 
     return p.parse_args(args)

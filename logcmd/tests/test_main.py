@@ -4,6 +4,7 @@ from cStringIO import StringIO
 
 from logcmd.main import main
 from logcmd.tests.fakepopen import FakePopenFactory
+from logcmd.tests.orderedsio import fake_select
 
 
 class MainTests (unittest.TestCase):
@@ -12,7 +13,6 @@ class MainTests (unittest.TestCase):
         sio = StringIO()
         fake_exit_calls = []
         fake_exit = fake_exit_calls.append
-        fake_select = lambda rds, wds, eds: (rds, wds, eds)
         fake_popen = FakePopenFactory(
             self,
             dict(
