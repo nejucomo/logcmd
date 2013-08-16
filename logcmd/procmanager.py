@@ -1,3 +1,4 @@
+import os
 import time
 import subprocess
 
@@ -37,3 +38,31 @@ class ProcManager (object):
         writer = self._writers[f]
         chunk = f.read(self._BUFSIZE)
         writer.write(chunk)
+
+    def check_closed(self):
+        rc = self._proc.poll()
+
+        if rc is None:
+            return None
+
+        elif os.WIFSTOPPED(rc):
+            self._ps.info('Process stopped with signal: %r\n',
+                          os.WSTOPSIG(rc))
+
+        elif os.WIFCONTINUED(rc):
+            self._ps.info('Process continued. (status: %x)\n',
+                          rc)
+
+        elif os.WIFSIGNALED(rc):
+            self._ps.info('Process exited due to signal: %r\n',
+                          os.WTERMSIG(rc))
+
+        elif os.WIFEXITED(rc):
+            self._ps.info('Process exited with status: %r\n',
+                          os.WEXITSTATUS(rc))
+
+        else:
+            self._ps.info('Error; unknown exit status: %r\n', rc)
+
+        self._ps.close()
+        return rc
