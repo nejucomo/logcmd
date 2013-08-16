@@ -1,5 +1,8 @@
 import sys
 import argparse
+import select
+import subprocess
+import time
 from logcmd.defaults import DefaultTemplate
 from logcmd.iomanager import IOManager
 
@@ -9,12 +12,18 @@ Log command stdout, stderr, arguments, exit status, and timings.
 """
 
 
-def main(args=sys.argv[1:]):
+def main(args=sys.argv[1:],
+         _stdout=sys.stdout,
+         _exit=sys.exit,
+         _select=select.select,
+         _popen=subprocess.Popen,
+         _gettime=time.gmtime,
+         ):
     opts = parse_args(args)
-    ioman = IOManager(sys.stdout, tmpl=opts.TMPL)
+    ioman = IOManager(_stdout)
     subargs = [opts.COMMAND] + opts.ARG
-    ioman.launch(subargs)
-    sys.exit(ioman.mainloop())
+    ioman.launch(subargs, tmpl=opts.TMPL)
+    _exit(ioman.mainloop())
 
 
 def parse_args(args):
