@@ -46,23 +46,24 @@ class ProcManager (object):
             return None
 
         elif os.WIFSTOPPED(rc):
-            self._ps.info('Process stopped with signal: %r\n',
+            self._ps.info('Process stopped with signal: %r',
                           os.WSTOPSIG(rc))
 
         elif os.WIFCONTINUED(rc):
-            self._ps.info('Process continued. (status: %x)\n',
+            self._ps.info('Process continued. (status: %x)',
                           rc)
 
         elif os.WIFSIGNALED(rc):
-            self._ps.info('Process exited due to signal: %r\n',
+            self._ps.info('Process exited due to signal: %r',
                           os.WTERMSIG(rc))
 
         elif os.WIFEXITED(rc):
-            self._ps.info('Process exited with status: %r\n',
+            self._ps.info('Process exited with status: %r',
                           os.WEXITSTATUS(rc))
 
         else:
-            self._ps.info('Error; unknown exit status: %r\n', rc)
+            self._ps.info('Error; unknown exit status: %r',
+                          rc)
 
         self._ps.close()
         return rc

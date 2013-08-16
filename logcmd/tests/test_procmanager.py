@@ -16,7 +16,7 @@ class ProcManagerTests (unittest.TestCase):
             dict(
                 args=args,
                 status=0,
-                out='I am:\nthe stdout stream.\n',
+                out='I am:\nthe stdout stream.\nblah',
                 err='Hello!\nstderr reporting for duty.\n',
                 ),
             )
@@ -27,6 +27,8 @@ class ProcManagerTests (unittest.TestCase):
 1970-01-01T00:00:00+0000|0|I|Launched with args: ['foo', 'bar']
 """
         self.assertEqual(expected, sio.getvalue())
+        self.assertIsNone(pman.check_closed())
+        self.assertEqual(expected, sio.getvalue())
 
         for f in pman.readables:
             pman.handle_read(f)
@@ -36,5 +38,12 @@ class ProcManagerTests (unittest.TestCase):
 1970-01-01T00:00:00+0000|0|O|the stdout stream.
 1970-01-01T00:00:00+0000|0|E|Hello!
 1970-01-01T00:00:00+0000|0|E|stderr reporting for duty.
+"""
+        self.assertEqual(expected, sio.getvalue())
+        self.assertEqual(0, pman.check_closed())
+
+        expected += """\
+1970-01-01T00:00:00+0000|0|O|blah
+1970-01-01T00:00:00+0000|0|I|Process exited with status: 0
 """
         self.assertEqual(expected, sio.getvalue())
